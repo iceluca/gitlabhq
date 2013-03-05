@@ -152,7 +152,11 @@ module Gitlab
       end
 
       # Add read permissions
-      repo.add_permission("R", "", name_readers) unless name_readers.blank?
+      if name_readers.blank?
+        repo.add_permission("R", "master", "@all") #everyone is allowed to read the repo!
+      else
+        repo.add_permission("R", "", name_readers)
+      end
 
       # Add write permissions
       repo.add_permission("RW+", "", name_writers) unless name_writers.blank?
